@@ -1,4 +1,5 @@
 from ipykernel.kernelbase import Kernel
+from ipykernel.kernelapp import IPKernelApp
 
 
 class IClojureKernel(Kernel):
@@ -23,6 +24,10 @@ class IClojureKernel(Kernel):
                 'user_expressions': {},
                }
 
-if __name__ == '__main__':
-    from ipykernel.kernelapp import IPKernelApp
+
+def main():
     IPKernelApp.launch_instance(kernel_class=IClojureKernel)
+
+
+if __name__ == '__main__':
+    main()

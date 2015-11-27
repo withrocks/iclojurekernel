@@ -1,4 +1,4 @@
 {
-  "argv":["python","-m","iclojurekernel.main", "-f", "{connection_file}"],
-  "display_name":"IClojureKernel"
+  "argv": ["python", "-m", "iclojurekernel.main", "-f", "{connection_file}"],
+  "display_name": "IClojureKernel"
 }
