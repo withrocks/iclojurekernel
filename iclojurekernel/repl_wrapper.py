@@ -1,29 +1,41 @@
 import pexpect
+import pexpect.exceptions
 
 
 class ReplWrapper:
     def __init__(self):
-        self.lein = pexpect.spawn('lein repl')
+        try:
+            self.lein = pexpect.spawn('lein repl')
+        except pexpect.exceptions.ExceptionPexpect:
+            raise LeiningenNotFoundException()
 
         # Wait for the expected prompt:
         self._wait_for_prompt()
 
-
-    # TODO: support multiple lines
     def sendline(self, line):
         self.lein.sendline(line)
-        line = self.lein.read()
         self._wait_for_prompt()
-        return line
+        return self.lein.before
+    """
+    def sendline(self, line):
+        return "you wrote '{}'".format(line)
+        """
 
     def _wait_for_prompt(self):
-        print "Waiting for prompt..."
         self.lein.expect('user=>')
+
+
+class LeiningenNotFoundException(Exception):
+    pass
 
 
 if __name__ == '__main__':
     print "Creating wrapper..."
-    repl = ReplWrapper()
+    try:
+        repl = ReplWrapper()
+    except LeiningenNotFoundException:
+        print "You need to install Leiningen"
 
-    print "Sending a line"
-    print repl.sendline('(+ 1 2)')
+    while True:
+        line = raw_input(">>> ")
+        print repl.sendline(line)
